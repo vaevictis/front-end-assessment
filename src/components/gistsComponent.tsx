@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Octokit } from 'octokit'
 import TextField from '@mui/material/TextField'
-
-
+import GistsTable from './gistsTable'
 
 export function GistsComponent(props:any) {
   const [data, setData] = useState<object | null>(null)
@@ -40,7 +39,7 @@ export function GistsComponent(props:any) {
   return (
     <div>
       <TextField fullWidth={true} onChange={searchGists} value={inputValue} />
-      <p>{JSON.stringify(data)}</p>
+      <GistsTable gists={data} />
     </div>
   )
 }
