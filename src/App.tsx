@@ -9,7 +9,7 @@ function App() {
       <header className="App-header">
         <h1>Gist Finder</h1>
       </header>
-      <GistsComponent userName={'gaearon'} />
+      <GistsComponent />
     </div>
   );
 }
