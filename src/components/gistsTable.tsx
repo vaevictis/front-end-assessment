@@ -9,23 +9,17 @@ import Paper from '@mui/material/Paper'
 
 const GistsTable = (props:any): JSX.Element => {
   const {gists} = props
-  // debugger
   if (!gists) { return (<h2>No Gists</h2>) }
 
   let rows:any[] = []
 
   gists.forEach((gist:any) => {
-    // debugger
       if (!gist) { return (<h2>No Gists</h2>) }
 
-    console.log('description', gist?.description)
-    rows.push(gist?.description)
-    // Object.keys(gist.files).forEach(fileKey => {
-    //   console.log('fileKey', fileKey)
-    // })
-
-    // filenames = gist.files.keys
-    // return {filename: gist.files}
+    rows.push({
+      description: gist.description,
+      fileTypes: extractFileTypes(gist)
+    })
   })
 
   return (
@@ -35,23 +29,21 @@ const GistsTable = (props:any): JSX.Element => {
         <TableHead>
           <TableRow>
             <TableCell align="left">Description</TableCell>
-            <TableCell align="left">File name</TableCell>
-            <TableCell align="left">File type</TableCell>
+            <TableCell align="left">File types</TableCell>
             <TableCell align="left">Language</TableCell>
             <TableCell align="left">Url</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.length !== 0 && rows.map((row) => (
+          {rows.length !== 0 && rows.map((row, idx) => (
             <TableRow
-              key={row.description}
+              key={`gist_elm_${idx}`}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row}
+                {row.description}
               </TableCell>
-              <TableCell align="left">rien</TableCell>
-              <TableCell align="left">rien</TableCell>
+              <TableCell align="left">{row.fileTypes}</TableCell>
               <TableCell align="left">rien</TableCell>
               <TableCell align="left">rien</TableCell>
             </TableRow>
@@ -63,5 +55,22 @@ const GistsTable = (props:any): JSX.Element => {
     </div>
   )
 }
+
+const extractFileTypes = (gist:any) :string[] => {
+  let files:string[] = []
+  let fileTypes:string[] = []
+  let filesList:any = gist.files
+
+  Object.keys(gist.files).forEach((fileKey:string) :void => {
+    files.push(filesList[fileKey])
+  })
+  files.forEach((file:any) => {
+    fileTypes.push(file.language)
+  })
+
+  return fileTypes
+}
+
+
 
 export default GistsTable
