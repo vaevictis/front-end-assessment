@@ -16,9 +16,10 @@ export function GistsComponent(props:any) {
       auth: process.env.REACT_APP_GITHUB_TOKEN
     })
 
-    if (inputValue == '') { return }
+    if (inputValue === '') { return }
 
     const fetchData = async ():Promise<any> => {
+      // TODO: Paginate (right now I'm just getting 30 first results)
       const result = await octokit.request(`GET /users/{userName}/gists`, {
         userName: inputValue
       })
