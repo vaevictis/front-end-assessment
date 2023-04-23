@@ -13,6 +13,7 @@ export function GistsComponent(props:any) {
 
   useEffect(() => {
     const octokit = new Octokit({
+      // TODO: Auth key in there is not safe
       auth: process.env.REACT_APP_GITHUB_TOKEN
     })
 

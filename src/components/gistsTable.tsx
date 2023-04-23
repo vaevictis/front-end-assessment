@@ -7,6 +7,8 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 
+import ForksTableCell from './forksTableCell'
+
 const GistsTable = (props:any): JSX.Element => {
   const {gists} = props
   if (!gists) { return (<h2>No Gists</h2>) }
@@ -14,11 +16,12 @@ const GistsTable = (props:any): JSX.Element => {
   let rows:any[] = []
 
   gists.forEach((gist:any) => {
-      if (!gist) { return (<h2>No Gists</h2>) }
+    if (!gist) { return (<h2>No Gists</h2>) }
 
     rows.push({
       description: gist.description,
-      fileTypes: extractFileTypes(gist)
+      fileTypes: extractFileTypes(gist),
+      forksUrl: gist.forks_url
     })
   })
 
@@ -30,18 +33,17 @@ const GistsTable = (props:any): JSX.Element => {
           <TableRow>
             <TableCell align="left">Description</TableCell>
             <TableCell align="left">Language</TableCell>
+            <TableCell align="left">Last 3 forks by</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.length !== 0 && rows.map((row, idx) => (
             <TableRow
               key={`gist_elm_${idx}`}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
-                {row.description}
-              </TableCell>
+              <TableCell component="th" scope="row">{row.description}</TableCell>
               <TableCell align="left">{new Array(...row.fileTypes).join(', ')}</TableCell>
+              <ForksTableCell forksUrl={row.forksUrl} />
             </TableRow>
           ))}
         </TableBody>
@@ -67,7 +69,5 @@ const extractFileTypes = (gist:any) :Set<string> => {
   let distinctFileTypes = new Set<string>(fileTypes)
   return distinctFileTypes
 }
-
-
 
 export default GistsTable
