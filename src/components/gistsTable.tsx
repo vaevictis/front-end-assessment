@@ -29,9 +29,7 @@ const GistsTable = (props:any): JSX.Element => {
         <TableHead>
           <TableRow>
             <TableCell align="left">Description</TableCell>
-            <TableCell align="left">File types</TableCell>
             <TableCell align="left">Language</TableCell>
-            <TableCell align="left">Url</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -43,9 +41,7 @@ const GistsTable = (props:any): JSX.Element => {
               <TableCell component="th" scope="row">
                 {row.description}
               </TableCell>
-              <TableCell align="left">{row.fileTypes}</TableCell>
-              <TableCell align="left">rien</TableCell>
-              <TableCell align="left">rien</TableCell>
+              <TableCell align="left">{new Array(...row.fileTypes).join(', ')}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -56,7 +52,7 @@ const GistsTable = (props:any): JSX.Element => {
   )
 }
 
-const extractFileTypes = (gist:any) :string[] => {
+const extractFileTypes = (gist:any) :Set<string> => {
   let files:string[] = []
   let fileTypes:string[] = []
   let filesList:any = gist.files
@@ -68,7 +64,8 @@ const extractFileTypes = (gist:any) :string[] => {
     fileTypes.push(file.language)
   })
 
-  return fileTypes
+  let distinctFileTypes = new Set<string>(fileTypes)
+  return distinctFileTypes
 }
 
 
