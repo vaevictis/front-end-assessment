@@ -3,6 +3,8 @@ import { Octokit } from 'octokit'
 import TextField from '@mui/material/TextField'
 import GistsTable from './gistsTable'
 
+const octokit = new Octokit()
+
 export function GistsComponent(props:any) {
   const [data, setData] = useState<object | null>(null)
   const [inputValue, setInputValue] = useState<string>('')
@@ -12,10 +14,6 @@ export function GistsComponent(props:any) {
   }
 
   useEffect(() => {
-    const octokit = new Octokit({
-      // TODO: Auth key in there is not safe
-      auth: process.env.REACT_APP_GITHUB_TOKEN
-    })
 
     if (inputValue === '') { return }
 

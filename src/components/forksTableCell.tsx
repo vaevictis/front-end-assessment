@@ -3,18 +3,14 @@ import { Octokit } from 'octokit'
 
 import TableCell from '@mui/material/TableCell'
 
+const octokit = new Octokit()
+
 const ForksTableCell = (props:any): JSX.Element => {
   const { forksUrl } = props
   const [forks, setForks] = useState<object[] | null>(null)
   const [avatarUrls, setAvatarUrls] = useState<string[]>([''])
 
   useEffect(() => {
-    // TODO: memoize octokit
-    const octokit = new Octokit({
-      // TODO: Auth key in there is not safe
-      auth: process.env.REACT_APP_GITHUB_TOKEN
-    })
-
     const fetchData = async ():Promise<any> => {
       const result = await octokit.request(`GET ${forksUrl}`, {
         forksUrl: forksUrl,
