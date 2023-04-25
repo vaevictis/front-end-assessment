@@ -16,10 +16,8 @@ const ForksTableCell = (props:any): JSX.Element => {
         forksUrl: forksUrl,
         per_page: 3
       })
-      // TODO: try without passing var in param object
 
       const json = await result.data
-      // debugger
       setForks(json as object[])
     }
 
