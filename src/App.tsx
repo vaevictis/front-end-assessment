@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { GistsComponent } from './components/gistsComponent'
+import GistsComponent from './components/gistsComponent'
 
 function App() {
 

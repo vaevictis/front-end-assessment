@@ -9,6 +9,22 @@ import Paper from '@mui/material/Paper'
 
 import ForksTableCell from './forksTableCell'
 
+const extractFileTypes = (gist:any) :Set<string> => {
+  let files:string[] = []
+  let fileTypes:string[] = []
+  let filesList:any = gist.files
+
+  Object.keys(gist.files).forEach((fileKey:string) :void => {
+    files.push(filesList[fileKey])
+  })
+  files.forEach((file:any) => {
+    fileTypes.push(file.language)
+  })
+
+  let distinctFileTypes = new Set<string>(fileTypes)
+  return distinctFileTypes
+}
+
 const GistsTable = (props:any): JSX.Element => {
   const {gists} = props
   if (!gists) { return (<h2>No Gists</h2>) }
@@ -49,25 +65,8 @@ const GistsTable = (props:any): JSX.Element => {
         </TableBody>
         </Table>
       </TableContainer>
-      <p>{JSON.stringify(gists)}</p>
     </div>
   )
-}
-
-const extractFileTypes = (gist:any) :Set<string> => {
-  let files:string[] = []
-  let fileTypes:string[] = []
-  let filesList:any = gist.files
-
-  Object.keys(gist.files).forEach((fileKey:string) :void => {
-    files.push(filesList[fileKey])
-  })
-  files.forEach((file:any) => {
-    fileTypes.push(file.language)
-  })
-
-  let distinctFileTypes = new Set<string>(fileTypes)
-  return distinctFileTypes
 }
 
 export default GistsTable

@@ -1,45 +1,19 @@
-import React, { useState, useEffect } from 'react'
-import { Octokit } from 'octokit'
-import TextField from '@mui/material/TextField'
+import React, { useState, useContext } from 'react'
+
 import GistsTable from './gistsTable'
+import UserSearch from './userSearch'
 
-const octokit = new Octokit()
-
-export function GistsComponent(props:any) {
-  const [data, setData] = useState<object | null>(null)
-  const [inputValue, setInputValue] = useState<string>('')
-
-  const searchGists = (evt:React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(evt.currentTarget.value)
-  }
-
-  useEffect(() => {
-
-    if (inputValue === '') { return }
-
-    const fetchData = async ():Promise<any> => {
-      // TODO: Paginate (right now I'm just getting 30 first results)
-      const result = await octokit.request(`GET /users/{userName}/gists`, {
-        userName: inputValue
-      })
-      const json = await result.data
-
-      setData(json as object)
-    }
-
-    const timer: ReturnType<typeof setTimeout> = setTimeout(() => {
-      fetchData()
-        .catch(console.error)
-    }, 500)
-
-    return () => clearTimeout(timer)
-
-  }, [inputValue])
+const GistsComponent = (props:any): JSX.Element => {
+  const [gists, setGists] = useState<object | null>(null)
+  const setDataCallback = (data:any) => { setGists(data) }
 
   return (
     <div>
-      <TextField fullWidth={true} onChange={searchGists} value={inputValue} />
-      <GistsTable gists={data} />
+      <UserSearch setDataCallback={setDataCallback} />
+      <GistsTable gists={gists} />
+      {/* TODO: Add isLoading component */}
     </div>
   )
 }
+
+export default GistsComponent
