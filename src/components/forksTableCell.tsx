@@ -3,7 +3,9 @@ import { Octokit } from 'octokit'
 
 import TableCell from '@mui/material/TableCell'
 
-const octokit = new Octokit()
+const octokit = new Octokit({
+  auth: process.env.REACT_APP_GITHUB_TOKEN
+})
 
 const ForksTableCell = (props:any): JSX.Element => {
   const { forksUrl } = props

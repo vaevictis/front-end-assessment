@@ -5,7 +5,9 @@ import TextField from '@mui/material/TextField'
 
 const UserSearch = (props:any): JSX.Element => {
   const {setDataCallback} = props
-  const octokit = new Octokit()
+  const octokit = new Octokit({
+    auth: process.env.REACT_APP_GITHUB_TOKEN
+  })
 
   const handleChange = (evt:React.ChangeEvent<HTMLInputElement>) => {
     debouncedSearch(evt.currentTarget.value)
