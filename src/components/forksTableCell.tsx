@@ -7,10 +7,15 @@ const octokit = new Octokit({
   auth: process.env.REACT_APP_GITHUB_TOKEN
 })
 
+type Avatar = {
+  url: string,
+  avatarUrl: string
+}
+
 const ForksTableCell = (props:any): JSX.Element => {
   const { forksUrl } = props
   const [forks, setForks] = useState<object[] | null>(null)
-  const [avatarUrls, setAvatarUrls] = useState<string[]>([''])
+  const [avatars, setAvatars] = useState<Avatar[]>([])
 
   useEffect(() => {
     const fetchData = async ():Promise<any> => {
@@ -29,27 +34,31 @@ const ForksTableCell = (props:any): JSX.Element => {
 
   useEffect(() => {
     if (!forks) {return}
-    extractAvatarUrls(forks)
+
+    extractAvatarData(forks)
   }, [forks])
 
-  const extractAvatarUrls = (forks:any[]) :void => {
-    const avatarUrls:string[] = []
+  const extractAvatarData = (forks:any[]) :void => {
+    const avatarData: Avatar[] = []
 
     forks.forEach((fork:any) :void => {
-      avatarUrls.push(fork.owner.avatar_url)
+      avatarData.push({
+        avatarUrl: fork.owner.avatar_url,
+        url: fork.owner.html_url
+      })
     })
 
-    setAvatarUrls(avatarUrls)
+    setAvatars(avatarData)
   }
-  if (!avatarUrls) {
+  if (!avatars) {
     return (<TableCell align="left">No Forks yet</TableCell>)
   }
 
   return (
     <TableCell align="left">
         {
-          avatarUrls.map((url, idx) => {
-            {return (<img  key={`avatar_img_${idx}`} className="avatar" src={url} />)}
+          avatars.map((avatar, idx) => {
+            {return (<a key={`avatar_img_${idx}`} href={avatar.url} target="_blank"><img className="avatar" src={avatar.avatarUrl} /></a>)}
           })
         }
     </TableCell>
