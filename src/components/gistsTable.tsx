@@ -28,13 +28,11 @@ const extractFileTypes = (gist:any) :Set<string> => {
 
 const GistsTable = (props:any): JSX.Element => {
   const {gists} = props
-  if (!gists) { return (<h2>No Gists</h2>) }
+  if (!gists) { return (<h2>No gists</h2>) }
 
   let rows:any[] = []
 
   gists.forEach((gist:any) => {
-    if (!gist) { return (<h2>No Gists</h2>) }
-
     rows.push({
       description: gist.description,
       fileTypes: extractFileTypes(gist),

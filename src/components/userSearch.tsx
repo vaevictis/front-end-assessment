@@ -4,6 +4,9 @@ import debounce from 'lodash/debounce'
 import TextField from '@mui/material/TextField'
 
 const UserSearch = (props:any): JSX.Element => {
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [inputValue, setInputValue] = useState<string>('')
+
   const {setDataCallback} = props
   const octokit = new Octokit({
     auth: process.env.REACT_APP_GITHUB_TOKEN
@@ -11,6 +14,7 @@ const UserSearch = (props:any): JSX.Element => {
 
   const handleChange = (evt:React.ChangeEvent<HTMLInputElement>) => {
     debouncedSearch(evt.currentTarget.value)
+    setInputValue(evt.currentTarget.value)
   }
 
   const debouncedSearch = useRef(
@@ -20,7 +24,7 @@ const UserSearch = (props:any): JSX.Element => {
   ).current
 
   const fetchData = async (username:string):Promise<any> => {
-
+    setIsLoading(true)
     const result = await octokit
       .paginate(octokit.rest.gists.listForUser, {
         username,
@@ -33,6 +37,7 @@ const UserSearch = (props:any): JSX.Element => {
       })
 
     setDataCallback(result)
+    setIsLoading(false)
   }
 
   useEffect(() => {
@@ -41,10 +46,16 @@ const UserSearch = (props:any): JSX.Element => {
     }
   }, [debouncedSearch])
 
+  if (isLoading) {
+    return <h2>Loading Gists...</h2>
+  }
+
   return (
     <TextField
+      inputRef={input => input && input.focus()}
       sx={{ marginBottom: '20px' }}
       className={'search-field'}
+      value={inputValue}
       InputProps={{inputProps: {style: {textAlign: 'center'}}}}
       fullWidth={true}
       onChange={handleChange} />
