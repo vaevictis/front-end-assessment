@@ -8,6 +8,7 @@ import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 
 import ForksTableCell from './forksTableCell'
+import FilesTableCell from './filesTableCell'
 
 const extractFileTypes = (gist:any) :Set<string> => {
   let files:string[] = []
@@ -58,7 +59,7 @@ const GistsTable = (props:any): JSX.Element => {
               key={`gist_elm_${idx}`}
             >
               <TableCell component="th" scope="row">{row.description}</TableCell>
-              <TableCell align="left">{new Array(...row.fileTypes).join(', ')}</TableCell>
+              <FilesTableCell fileTypes={row.fileTypes} />
               <ForksTableCell forksUrl={row.forksUrl} />
             </TableRow>
           ))}
