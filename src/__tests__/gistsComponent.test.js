@@ -7,5 +7,3 @@ test('displays an informative message on app load', () => {
 
   expect(screen.getByText(/Search a Github username/i)).toBeInTheDocument()
 })
-
-// test('')
