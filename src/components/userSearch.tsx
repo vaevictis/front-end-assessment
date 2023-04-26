@@ -42,7 +42,12 @@ const UserSearch = (props:any): JSX.Element => {
   }, [debouncedSearch])
 
   return (
-    <TextField sx={{ marginBottom: '20px' }} className={'search-field'} InputProps={{inputProps: {style: {textAlign: 'center'}}}} fullWidth={true} onChange={handleChange} />
+    <TextField
+      sx={{ marginBottom: '20px' }}
+      className={'search-field'}
+      InputProps={{inputProps: {style: {textAlign: 'center'}}}}
+      fullWidth={true}
+      onChange={handleChange} />
   )
 }
 
