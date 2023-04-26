@@ -11,8 +11,8 @@ const FilesTableCell = (props:any): JSX.Element => {
   }
   return (
     <TableCell align="left">
-      {massagedFileTypes.map(fileType => (
-        <Chip sx={{ marginRight: '1em' }} label={fileType} variant='outlined' />
+      {massagedFileTypes.map((fileType, idx) => (
+        <Chip key={`filetype_${idx}`} sx={{ marginRight: '1em' }} label={fileType} variant='outlined' />
       ))}
     </TableCell>
   )

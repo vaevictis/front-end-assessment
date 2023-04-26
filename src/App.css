@@ -22,9 +22,13 @@
 }
 
 /* Material UI seems to favor a styling at the component level,
-as their styles take precedence on any hierarchy. The need for '!important' for each custom style would be counter-productive. */
+as their styles take precedence on any hierarchy. The need for '!important' for each custom style would be counter-productive.
 
-/* .search-field {
-  border: 10px solid red !important;
-  text-align: center !important;
-} */
+I still decided to style some elements this way for the sake of timeliness.
+*/
+
+.search-field .MuiInputBase-input {
+  font-size: 24px !important;
+  font-weight: bold !important;
+  color: #1976d2 !important;
+}
