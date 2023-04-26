@@ -19,13 +19,20 @@ const UserSearch = (props:any): JSX.Element => {
     }, 500)
   ).current
 
-  const fetchData = async (input:string):Promise<any> => {
-    // TODO: Paginate (right now I'm just getting 30 first results)
-    const result = await octokit.request(`GET /users/{userName}/gists`, {
-      userName: input
-    })
-    const json = await result.data
-    setDataCallback(json)
+  const fetchData = async (username:string):Promise<any> => {
+
+    const result = await octokit
+      .paginate(octokit.rest.gists.listForUser, {
+        username,
+      })
+      .then((gists) => {
+        return gists
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+
+    setDataCallback(result)
   }
 
   useEffect(() => {
