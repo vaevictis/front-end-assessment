@@ -20,3 +20,45 @@ I end up looping and making an extra API request for every gist after I've unloc
 Solutions could be:
 - migrate the requests to the GraphQL github API, which would allow getting all the data in one fell swoop.
 - Actually display the gist results paginated, and only fetch the Forks for each new paginated set load.
+
+### Switch to GraphQL
+Through the use of Github's excellent [graphQL Explorer](https://docs.github.com/en/graphql/overview/explorer), I came up quickly with this schema which would get me the data I need in one single request:
+
+```json
+query {
+  user (login: "gaearon") {
+    gists (first: 10, orderBy: {field: CREATED_AT, direction: DESC} ) {
+      edges {
+        node {
+          id,
+          isPublic,
+          description,
+          files {
+            encodedName
+            encoding
+            extension
+            name
+            size
+            text
+          },
+          forks(first: 3) {
+            edges {
+              node {
+                id,
+                description,
+                name,
+                owner {
+                  id,
+                  login,
+                  avatarUrl,
+                  url
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
