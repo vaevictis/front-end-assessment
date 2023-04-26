@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react'
 import { Octokit } from 'octokit'
 
 import TableCell from '@mui/material/TableCell'
+import Stack from '@mui/material/Stack'
 
 const octokit = new Octokit({
   auth: process.env.REACT_APP_GITHUB_TOKEN
 })
 
 type Avatar = {
-  url: string,
-  avatarUrl: string
+  forkUrl: string,
+  avatarUrl: string,
+  login: string
 }
 
 const ForksTableCell = (props:any): JSX.Element => {
@@ -40,11 +42,12 @@ const ForksTableCell = (props:any): JSX.Element => {
 
   const extractAvatarData = (forks:any[]) :void => {
     const avatarData: Avatar[] = []
-
+    // debugger
     forks.forEach((fork:any) :void => {
       avatarData.push({
         avatarUrl: fork.owner.avatar_url,
-        url: fork.owner.html_url
+        forkUrl: fork.html_url,
+        login: fork.owner.login
       })
     })
 
@@ -56,11 +59,16 @@ const ForksTableCell = (props:any): JSX.Element => {
 
   return (
     <TableCell align="left">
+      <Stack>
         {avatars.map((avatar, idx) => (
-          <a key={`avatar_img_${idx}`} href={avatar.url} target="_blank">
-            <img className="avatar" src={avatar.avatarUrl} />
-          </a>
+          <span key={`avatar_${idx}`}>
+            <a href={avatar.forkUrl} target="_blank">
+              <img className="avatar" src={avatar.avatarUrl} />
+            </a>
+            <span> {avatar.login}</span>
+          </span>
         ))}
+      </Stack>
     </TableCell>
   )
 }
