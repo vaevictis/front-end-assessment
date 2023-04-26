@@ -1,10 +1,14 @@
-# Setup
+# Live example
+I've hooked this repository to [a Vercel project](https://front-end-assessment-nine.vercel.app).
+There's no API signature in there so rate limits will happen sooner than later.
 
+# Setup
 ```bash
 git clone vaevictis/front-end-assessment
 cd front-end-assessment
 npm install
 ```
+set a github token for authenticating your requests. It's not necessary per se as this project hits public API endpoints, but the rate limiting will happen fast, notably because of the performance note below.
 
 # Start development
 `npm start`
@@ -62,3 +66,8 @@ query {
   }
 }
 ```
+
+### Other improvements
+- The API calls could be moved into an APIs module and have functions imported in the components where they are needed. It would be a good approach if I started having more components doing various network requests.
+
+- In order to better secure a Github API token or any other secret really, it should only be served from a potential backend server.
