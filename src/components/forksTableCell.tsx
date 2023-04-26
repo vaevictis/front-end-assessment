@@ -38,7 +38,7 @@ const ForksTableCell = (props:any): JSX.Element => {
 
     fetchData()
       .catch(console.error)
-  }, [])
+  }, [forksUrl])
 
   useEffect(() => {
     if (!forks) {return}
@@ -67,8 +67,8 @@ const ForksTableCell = (props:any): JSX.Element => {
       <Stack>
         {forkers.map((forker, idx) => (
           <span key={`forker_${idx}`}>
-            <a href={forker.forkUrl} target="_blank">
-              <img className="avatar" src={forker.avatarUrl} />
+            <a href={forker.forkUrl} target="_blank" rel="noreferrer">
+              <img className="avatar" alt="forker's avatar" src={forker.avatarUrl} />
             </a>
             <span> {forker.login}</span>
           </span>
