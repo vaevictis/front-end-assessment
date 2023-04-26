@@ -21,7 +21,7 @@ const ForksTableCell = (props:any): JSX.Element => {
 
   // FIXME: This would quickly become a bottleneck.
   // I end up looping and making an extra API request for every gist
-  // after I've unlocked the paginated gists request.
+  // after I'm fetching the paginated gists.
   // This is a clear n+1 problem.
 
   useEffect(() => {
