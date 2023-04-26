@@ -1,11 +1,19 @@
 import React from 'react'
 import TableCell from '@mui/material/TableCell'
+import Chip from '@mui/material/Chip'
 
 const FilesTableCell = (props:any): JSX.Element => {
   const { fileTypes } = props
+  const massagedFileTypes: string[] = new Array(...fileTypes)
+
+  if (massagedFileTypes.length === 0) {
+    return (<span>No file types</span>)
+  }
   return (
     <TableCell align="left">
-      {new Array(...fileTypes).join(', ')}
+      {massagedFileTypes.map(fileType => (
+        <Chip sx={{ marginRight: '1em' }} label={fileType} variant='outlined' />
+      ))}
     </TableCell>
   )
 }
