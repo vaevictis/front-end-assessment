@@ -14,15 +14,20 @@ set a github token for authenticating your requests. It's not necessary per se a
 `npm start`
 
 ## Notes
+### Library choices
+- For the sake of speed, I ended up using Octokit, a Github library that abstracts calls to its APIs. I could have used axios or (my personal preference) the now browser-standard `fetch` function.
+- I've also used Material UI in order to get basic styles straight out of the box for my search field and results table. Nothing particularly fancy, and I've made some comments in the code around the pros and cons of this choice.
+
 ### Vulnerabilities
 - There are 6 vulnerabilities identified on initial app dependency install. They are known false positives as per [Dan Abramov's post](https://overreacted.io/npm-audit-broken-by-design/)
 - Octokit is throwing warnings which are also [false positives](https://github.com/octokit/plugin-throttling.js/issues/583)
 
 ### Performance
 There's an obvious n+1 performance issue with my current Forkers network request architecture which would quickly become a bottleneck.
-I end up looping and making an extra API request for every gist after I've unlocked the paginated gists request.
+I end up looping and making an extra API request for every gist. As I'm  fetching all the gists (as per instructions) for a given user and I then request the forks for each gist, this generates a large amount of extra queries for any user having more than a handful of gists.
+
 Solutions could be:
-- migrate the requests to the GraphQL github API, which would allow getting all the data in one fell swoop.
+- migrate the requests to the GraphQL github API, which would allow getting all the data in one swift move.
 - Actually display the gist results paginated, and only fetch the Forks for each new paginated set load.
 
 ### Switch to GraphQL
@@ -70,4 +75,15 @@ query {
 ### Other improvements
 - The API calls could be moved into an APIs module and have functions imported in the components where they are needed. It would be a good approach if I started having more components doing various network requests.
 
-- In order to better secure a Github API token or any other secret really, it should only be served from a potential backend server.
+- In order to better secure a Github API token or any other secret, it should only be served from a potential backend server.
+
+### Testing strategy
+As there was nothing specified around writing tests in the instructions, I didn't spend much time on that.
+I still ended up writing a simple static text check for the sake of having the test suite running against my code.
+
+I've also added a mostly commented-out spec in `forksTableCell.test.js`, to give a sense of the testing strategy I'd employ:
+- Render a component in test context
+- Mock an API call
+- Ensure component has correctly rendered the data
+
+The main issue I encountered was around the mocking of Octokit. Ultimately, in order to correctly test this app I would probably get rid of Octokit and get back to a native `fetch` approach for the API calls, which is much simpler to mock, notably because it's much more documented.
