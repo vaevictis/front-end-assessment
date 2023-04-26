@@ -1,5 +1,5 @@
 # Live example
-I've hooked this repository to [a Vercel project](https://front-end-assessment-nine.vercel.app).
+I've hooked this repository to a [Vercel project](https://front-end-assessment-nine.vercel.app).
 There's no API signature in there so rate limits will happen sooner than later.
 
 # Setup
@@ -8,7 +8,7 @@ git clone vaevictis/front-end-assessment
 cd front-end-assessment
 npm install
 ```
-set a github token for authenticating your requests. It's not necessary per se as this project hits public API endpoints, but the rate limiting will happen fast, notably because of the performance note below.
+set a [github token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) for authenticating your requests. It's not necessary per se as this project hits public API endpoints, but the rate limiting will happen fast, notably because of the performance note below.
 
 # Start development
 `npm start`
@@ -77,13 +77,17 @@ query {
 
 - In order to better secure a Github API token or any other secret, it should only be served from a potential backend server.
 
+- I do not have extensive Typescript experience, and I've ended up declaring all the payload-returning API calls with a return type of `any`. It's a bit of an anti-pattern when the type is actually known and documented (albeit would be very large to describe manually). Github provides types for its APIs, so the obvious next step would be to import those.
+
 ### Testing strategy
 As there was nothing specified around writing tests in the instructions, I didn't spend much time on that.
 I still ended up writing a simple static text check for the sake of having the test suite running against my code.
 
-I've also added a mostly commented-out spec in `forksTableCell.test.js`, to give a sense of the testing strategy I'd employ:
+I've also added a mostly commented-out spec in `forksTableCell.test.js`, to give a sense of a component-level testing strategy I'd employ:
 - Render a component in test context
 - Mock an API call
 - Ensure component has correctly rendered the data
 
 The main issue I encountered was around the mocking of Octokit. Ultimately, in order to correctly test this app I would probably get rid of Octokit and get back to a native `fetch` approach for the API calls, which is much simpler to mock, notably because it's much more documented.
+
+Finally, there would always be a conversation around End to End testing. I've worked with Selenium in the past, I think it's functional but a bit of a heavy toolset to setup. I've also had success with Cypress in the past.
