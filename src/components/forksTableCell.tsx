@@ -56,11 +56,11 @@ const ForksTableCell = (props:any): JSX.Element => {
 
   return (
     <TableCell align="left">
-        {
-          avatars.map((avatar, idx) => {
-            {return (<a key={`avatar_img_${idx}`} href={avatar.url} target="_blank"><img className="avatar" src={avatar.avatarUrl} /></a>)}
-          })
-        }
+        {avatars.map((avatar, idx) => (
+          <a key={`avatar_img_${idx}`} href={avatar.url} target="_blank">
+            <img className="avatar" src={avatar.avatarUrl} />
+          </a>
+        ))}
     </TableCell>
   )
 }
